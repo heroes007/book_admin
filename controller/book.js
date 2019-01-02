@@ -40,6 +40,36 @@ router.post("/add", async(req, res, next) => {
     }
 })
 
+router.post("/delete", async(req, res, next) => {
+    try {
+        let {_id} = req.body
+        if(_id){
+            const data = await bookModel.deleteOne({_id})
+            res.json({
+                code: 200,
+                data,
+                msg:'删除成功'
+            })
+        }
+    }catch (e) {
+        next(e)
+    }
+})
+
+router.post("/change", async(req, res, next) => {
+    try {
+        let {title, author, _id} = req.body
+        const data = await bookModel.update({_id},{title, author})
+        res.json({
+            code: 200,
+            data,
+            msg: '修改成功'
+        })
+    }catch (e) {
+        next(e)
+    }
+})
+
 router.delete("/", async(req, res, next) => {
     try{
         let { _id } = req.body

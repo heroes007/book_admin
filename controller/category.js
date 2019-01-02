@@ -45,9 +45,37 @@ router.post("/add", async(req, res, next) => {
     }
 })
 
-router.delete("/", async(req, res, next) => {
+router.post("/delete", async(req, res, next) => {
+    try {
+        let {_id} = req.body
+        const data = await categoryModel.deleteOne({_id})
+        res.json({
+            code: 200,
+            data,
+            msg: '删除成功'
+        })
+    }catch (e) {
+        next(err)
+    }
+})
+
+router.post("/change", async(req, res, next) => {
+    try {
+        let {title, _id} = req.body
+        const data = await categoryModel.update({_id},{title})
+        res.json({
+            code:200,
+            data,
+            msg: '修改成功'
+        })
+    }catch (e) {
+        next(e)
+    }
+})
+
+router.delete("/delete", async(req, res, next) => {
     try{
-        let _id = req.body
+        let {_id} = req.body
         const data = await categoryModel.deleteOne({_id})
         res.json({
             code: 200,
